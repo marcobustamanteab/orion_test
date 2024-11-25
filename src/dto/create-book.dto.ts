@@ -1,4 +1,4 @@
-import { IsString, IsNumber, IsArray, Min } from 'class-validator';
+import { IsString, IsNumber, IsArray, Min, ArrayNotEmpty } from 'class-validator';
 
 export class CreateBookDto {
   @IsString()
@@ -13,5 +13,6 @@ export class CreateBookDto {
   pages: number;
 
   @IsArray()
+  @ArrayNotEmpty()
   authorIds: string[];
 }
