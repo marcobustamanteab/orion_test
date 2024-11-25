@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch } from '@nestjs/common';
 import { BooksService } from './books.service';
 import { CreateBookDto } from '../dto/create-book.dto';
 
@@ -16,15 +16,11 @@ export class BooksController {
     return this.booksService.findAll();
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    const task = await this.booksService.findBookById(id);
-    if (!task) throw new NotFoundException('Book not found');
-    return task;
-  }
 
-  @Get('pages-per-chapter')
-  async getPagesPerChapter() {
-    return this.booksService.getPagesPerChapter();
+  //me vi en la obligación de poder implementar este patch para poder limpiar las relaciones (ya que no se estaban asociando de manera correcta), puedo decir que fue mi mayor stopper en la prueba técnica. Dios, que me costo sacar esto. jaja (Aquí debo mencionarlo, me apoye con GPT...)
+  @Patch('fix-relationships')
+  async fixRelationships() {
+    await this.booksService.fixRelationships();
+    return { message: 'Relationships fixed successfully' };
   }
 }
