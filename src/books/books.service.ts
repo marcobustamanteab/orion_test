@@ -13,10 +13,8 @@ export class BooksService {
   ) {}
 
   async create(createBookDto: CreateBookDto): Promise<BookDocument> {
-    // Convertir string IDs a ObjectIds
     const authorObjectIds = createBookDto.authorIds.map(id => new Types.ObjectId(id));
 
-    // Verificar que todos los autores existan
     const authors = await this.authorModel.find({
       _id: { $in: authorObjectIds }
     }).exec();
@@ -34,7 +32,6 @@ export class BooksService {
 
     const savedBook = await createdBook.save();
 
-    // Actualizar los autores con el nuevo libro
     await Promise.all(
       authors.map(async (author) => {
         return this.authorModel.findByIdAndUpdate(
